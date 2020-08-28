@@ -1,0 +1,4 @@
+s/<PREFIX>/\(b\|p\|m\|f\|d\|t\|n\|l\|g\|k\|h\|j\|q\|x\|zh\|ch\|sh\|r\|z\|c\|s\|w\|y\)/g
+s/<SUFFIX>/\(a\|e\|i\|o\|u\|ui\|an\|ao\|ei\|en\|ia\|ie\|in\|iu\|ou\|ua\|ue\|ui\|an\|ao\|ei\|en\|ia\|ie\|in\|iu\|ou\|ua\|ue\|ui\|un\|uo\|and\|eng\|ong\|ian\|iao\|ing\|uai\|uan\|iang\|iong\|uang\)/g
+s/<STANDALONESUFFIX>/\(ai\|ei\|ao\|ou\|an\|ang\|en\|eng\|er\)/g
+

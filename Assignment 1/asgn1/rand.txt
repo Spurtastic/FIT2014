@@ -1,0 +1,13 @@
+# this is a text file 
+
+
+
+aaaaabbbbbbbccccccdddddd
+
+here are some random words
+
+
+sed "s/itemforreplacement/thereplacement/g" .filename.txt
+
+
+blah blah the quick brown fox jumped over the large
