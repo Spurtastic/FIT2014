@@ -7,13 +7,20 @@
 
 
 
+#Correct Val
+#BEGIN{FS=" "}tolower($NF)~/mandarinhanyupinyin/{positive++}END{print "Positive == " positive}
 
 
-# Correct Val
-$0= tolower($0);
-if ( $1 =/((b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s|w|y)(a|e|i|o|u|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui\
-|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|un|uo|and|eng|ong|ian|iao|ing|uai|uan|iang|iong|uang)\
-|(ai|ei|ao|ou|an|ang|en|eng|er)) ((b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s|w|y)(a|e|i|o|u|ui|an|ao|ei|en|ia\
-|ie|in|iu|ou|ua|ue|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|un|uo|and|eng|ong|ian|iao|ing|uai|uan|iang|iong|uang)|(ai|ei|ao|ou|an|ang|en|eng|er))\
-((b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s|w|y)(a|e|i|o|u|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|un|uo|and|eng|\
-ong|ian|iao|ing|uai|uan|iang|iong|uang)|(ai|ei|ao|ou|an|ang|en|eng|er))?/){ print } 
+#False Pos
+#BEGIN{FS=":"}tolower($1)~/((b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s|w|y)(a|e|i|o|u|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|un|uo|and|eng|ong|ian|iao|ing|uai|uan|iang|iong|uang)|(ai|ei|ao|ou|an|ang|en|eng|er)) ((b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s|w|y)(a|e|i|o|u|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|un|uo|and|eng|ong|ian|iao|ing|uai|uan|iang|iong|uang)|(ai|ei|ao|ou|an|ang|en|eng|er))((b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s|w|y)(a|e|i|o|u|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|un|uo|and|eng|ong|ian|iao|ing|uai|uan|iang|iong|uang)|(ai|ei|ao|ou|an|ang|en|eng|er))?/{allPositive++}END{print "False Positive == " allPositive}
+
+#Negative   : Fails to meet parameters
+BEGIN{FS=":"}tolower($NF)!~/mandarinhanyupinyin/{negative+=1}END{print "Negative == " negative}
+
+# False neg  : Seemingly correct matches come as False
+BEGIN{FS=":"}tolower($1)!~/((b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s|w|y)(a|e|i|o|u|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|un|uo|and|eng|ong|ian|iao|ing|uai|uan|iang|iong|uang)|(ai|ei|ao|ou|an|ang|en|eng|er)) ((b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s|w|y)(a|e|i|o|u|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|un|uo|and|eng|ong|ian|iao|ing|uai|uan|iang|iong|uang)|(ai|ei|ao|ou|an|ang|en|eng|er))((b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s|w|y)(a|e|i|o|u|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|an|ao|ei|en|ia|ie|in|iu|ou|ua|ue|ui|un|uo|and|eng|ong|ian|iao|ing|uai|uan|iang|iong|uang)|(ai|ei|ao|ou|an|ang|en|eng|er))?/{ allNegative+=1}END{print "False Negative == "negative-allNegative}
+
+
+
+
+
