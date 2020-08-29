@@ -1,0 +1,49 @@
+# Enable colors and change prompt:
+autoload -U colors && colors
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[red]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+
+#=# History in cache directory:
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.cache/zsh/history
+
+# Basic auto/tab complete:
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)		# Include hidden files.
+
+# Use lf to switch directories and bind it to ctrl-o
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+bindkey -s '^o' 'lfcd\n'
+
+alias c="clear"
+alias p="python3"
+alias ven="python3 -m venv venv"
+alias act="source venv/bin/activate"
+alias cleaner="cd && cd Documents/Projects/DesktopAutomation && act && python3 cleandesk.py"
+alias kill="deactivate && cd"
+alias test="python3 trial.py"
+alias res="source ~/.zshrc"
+alias 1="mkdir Week-1"
+alias 2="mkdir Week-2"
+alias 3="mkdir Week-3" alias 4="mkdir Week-4"
+alias 5="mkdir Week-5"
+alias 6="mkdir Week-6"
+alias 7="mkdir Week-7"
+alias 8="mkdir Week-8"
+alias 9="mkdir Week-9"
+alias 10="mkdir Week-10"
+alias 11="mkdir Week-11"
+alias 12="mkdir Week-12"
+alias lex="open -e ~/.zshrc"
+alias math="alo && open -a mathsort"
