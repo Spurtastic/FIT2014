@@ -16,7 +16,6 @@
 void yyerror(char *);
 #include "quat.h"
 #include "y.tab.h"
-
 %}
 
 
@@ -27,15 +26,15 @@ void yyerror(char *);
 
     /* Nonnegative integers ...  */
 
-(0|[1-9][0-9]*)   {    
-/*            printf("Token: NUMBER;  Lexeme: %s\n", yytext); */
+(0|[1-9][0-9]*)   {
+            printf("Token: NUMBER;  Lexeme: %s\n", yytext);
             yylval.num = atof(yytext);
             return  NUMBER;
         }
 
 
 Power  {
-/*            printf("Token: POWER;  Lexeme: %s\n", yytext); */
+            printf("Token: POWER;  Lexeme: %s\n", yytext);
             yylval.str = strdup(yytext);
             return  POWER;
          }
@@ -43,12 +42,12 @@ Power  {
 
 
 [+*(),]   {
-/*          printf("Token and Lexeme: %s\n", yytext); */
+            printf("Token and Lexeme: %s\n", yytext);
             return  *yytext;
         }
 
 \n      {
-/*            printf("Token and Lexeme: <newline>\n");*/
+            printf("Token and Lexeme: <newline>\n");
             return  *yytext;
         }
 
@@ -57,7 +56,7 @@ Power  {
 
 
 .       {
-    /*     printf("Invalid character.\n");     */
+           printf("Invalid character.\n");
            yyerror("invalid character");
         }
      /*  will match any single character that does not match
@@ -78,7 +77,7 @@ int yywrap(void) {
 }
 
 
-/*  comment out the function  main()  if  using  lex  with  yacc   */
+/*  comment out the function  main()  if using  lex  with  yacc   */
 /*
 int main(void) {
     yylex();

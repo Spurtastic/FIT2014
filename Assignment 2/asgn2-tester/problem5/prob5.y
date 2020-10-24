@@ -44,14 +44,20 @@ int  total = 0;
 };
 
 %token  <num>  NUMBER
-%token  <str>  POWER
+%token  <str> ROTATION
+
+
 %left '+'
 %left '*'
+%left '-'
+%left '/'
 
-%type  <iValue>  start
-%type  <iValue>  line
-%type  <iValue>  expr
-%type  <iValue>  int
+%type  <qtn>  start
+%type  <qtn>  line
+%type  <qtn>  expr
+%type  <qtn>  quatern
+%type  <num> rNums
+
 
 %start  start
 
@@ -61,22 +67,44 @@ int  total = 0;
 
 
 
-start    :    line  '\n'       {  }
-         |    start  line  '\n'          {  }
+start    :    line  '\n'       			{}
+         |    start  line  '\n'          		{}
          ;
+         
+line     :    expr   					{printQuaternion($1)  ;}
+         |        /*  allow "empty" expression  */    {}
+	 ;
 
-line     :    expr   {  printf("%d\n", $1);   }
-         |        /*  allow "empty" expression  */           {     }
+expr     :    quatern					{$$ = $1              ;} 				
+         |    expr '+' expr                           {$$ = sum($1, $3)     ;}
+         |    '(' expr ')'				{$$ = $2              ;}
+         |    expr '/' expr				{$$ = quotient($1, $3);}
+         |    expr '*' expr   			{$$ = product($1, $3) ;}
+         |    expr '-' expr				{$$ = diff($1,$3)     ;}
+         |    ROTATION'('rNums','expr')'		{$$ = rotation($3,$5) ;} 
+         ;
+/*Made quaternion var seperate and broke down individual parts here*/
+quatern  :     rNums		          		{$$ = newQuaternion($1,0,0,0);}
+         |     rNums 'i'				{$$ = newQuaternion(0,$1,0,0);}
+         |     rNums 'j'				{$$ = newQuaternion(0,0,$1,0);}
+         |     rNums 'k'				{$$ = newQuaternion(0,0,0,$1);}
+         |  '-'rNums 					{$$ = newQuaternion(-$2,0,0,0);}
+         |  '-'rNums 'i'				{$$ = newQuaternion(0,-$2,0,0);}
+         |  '-'rNums 'j'				{$$ = newQuaternion(0,0,-$2,0);}
+         |  '-'rNums 'k'				{$$ = newQuaternion(0,0,0,-$2);} 
+         |	'i'					{$$ = newQuaternion(0,1,0,0);}
+         |	'j'					{$$ = newQuaternion(0,0,1,0);}
+         |	'k'					{$$ = newQuaternion(0,0,0,1);}
+         |   '-''i'					{$$ = newQuaternion(0,-1,0,0);}
+         |   '-''j'					{$$ = newQuaternion(0,0,-1,0);}
+         |   '-''k'					{$$ = newQuaternion(0,0,0,-1);}
+         ;
+/* real numbers for insertion later on*/         
+rNums    :    NUMBER      			        {$$ = $1              ;}
+	 ;
          
 
-expr     :    int    {  $$ = $1;  }
-         |    POWER '(' expr ',' expr ')'    {  $$ = pow($3,$5);  }
-         |    expr '*' expr    {  $$ = $1 * $3;  }
-         |    expr '+' expr    {  $$ = $1 + $3;  }
-         ;
-
-int      :    NUMBER             {  $$ = $1;   }
-         ;
+    
 
 
 %%      /*   programs   */

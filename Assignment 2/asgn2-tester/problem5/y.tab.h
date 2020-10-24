@@ -50,18 +50,18 @@ extern int yydebug;
   enum yytokentype
   {
     NUMBER = 258,
-    POWER = 259
+    ROTATION = 259
   };
 #endif
 /* Tokens.  */
 #define NUMBER 258
-#define POWER 259
+#define ROTATION 259
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 39 "plus-times-power.y"
+#line 39 "prob5.y"
 
     int  iValue;
     char *str;
